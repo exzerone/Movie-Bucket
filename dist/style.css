@@ -1,0 +1,26 @@
+body{
+  background-color: lightblue;
+}
+.movie_title{
+  position: relative;
+  top:50px;
+  left:50px;
+  /* border-style: groove; */
+  width: 150px;
+}
+
+.table{
+  /* border-style: groove; */
+  height:400px;
+  width: 350px;
+}
+
+.search_bar{
+  position: relative;
+  left: 10px;
+}
+
+.searchbutton{
+  position: relative;
+  left: 20px;
+}
