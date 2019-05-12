@@ -2,6 +2,7 @@ import React from 'react';
 import Movie from './Movie.jsx';
 import Search from './Search.jsx';
 import Add from './Add.jsx';
+// import Watched from './Watched.jsx';
 
 class App extends React.Component {
 	constructor(props) {
@@ -15,9 +16,13 @@ class App extends React.Component {
 				{ title: 'Ex Machina' }
 			],
 			searchresult: [],
-			addedmovies: [],
+      addedmovies: [],
+      watchedlist:[],
+      unwatchedlist:[],
 			movieadded: false,
-			searchtoggle: false
+      searchtoggle: false,
+      watched: false,
+      unwatched: true
 		};
 		this.searchHandler = this.searchHandler.bind(this);
 		this.addHandler = this.addHandler.bind(this);
@@ -37,7 +42,11 @@ class App extends React.Component {
 
 	addHandler(addedmovies) {
 		this.setState({ searchtoggle: false, movieadded: true, addedmovies });
-	}
+  }
+  
+  toggleHandler(e){
+    e.preventDefault();
+  }
 
 	render() {
 		var list;
@@ -61,6 +70,8 @@ class App extends React.Component {
 				<h3>Movie List</h3>
 				<Add addHandler={this.addHandler} />
 				<Search movies={list} searchHandler={this.searchHandler} />
+        <input className="watched_toggle" type="submit" value="Watched"></input>
+        <input className="watched_toggle" type="submit" value="To-Watch"></input>
 				{movie}
 			</div>
 		);

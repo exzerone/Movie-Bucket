@@ -24,3 +24,21 @@ body{
   position: relative;
   left: 20px;
 }
+
+.movie{
+  margin-top: 25px;
+}
+
+.watched_button{
+  position:relative;
+  left: 150px;
+  top: 33px;
+}
+
+.watched_toggle{
+  position:relative;
+  top:70px;
+  width:70px;
+  height:70px;
+}
+
