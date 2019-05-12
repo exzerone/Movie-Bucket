@@ -2,51 +2,89 @@ import React from 'react';
 import Movie from './Movie.jsx';
 import Search from './Search.jsx';
 import Add from './Add.jsx';
-// import Watched from './Watched.jsx';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			movies: [
-				{ title: 'Mean Girls' },
-				{ title: 'Hackers' },
-				{ title: 'The Grey' },
-				{ title: 'Sunshine' },
-				{ title: 'Ex Machina' }
+				{ title: 'The Social Network', image:'https://image.tmdb.org/t/p/w500//ok5Wh8385Kgblq9MSU4VGvazeMH.jpg' },
+				{ title: 'White Chicks', image:'https://image.tmdb.org/t/p/w500//hT4PEPFW3dQG7N5LZe5b2qYHCU0.jpg' },
+				{ title: 'The Wolf of Wall Street', image:'https://image.tmdb.org/t/p/w500//vK1o5rZGqxyovfIhZyMELhk03wO.jpg' },
+				{ title: 'Iron Man', image:'https://image.tmdb.org/t/p/w500//jdXmMoREwmfZWxtqGyk5Zv0UB6r.jpg' }
 			],
 			searchresult: [],
-      addedmovies: [],
-      watchedlist:[],
-      unwatchedlist:[],
+			addedmovies: [],
+			watchedlist: [],
 			movieadded: false,
-      searchtoggle: false,
-      watched: false,
-      unwatched: true
+			searchtoggle: false,
+			watched: false,
+			unwatched: true,
+			watched_color: 'white',
+			watched_fontcolor: 'black',
+			unwatch_color: 'white',
+			unwatch_fontcolor: 'black'
 		};
 		this.searchHandler = this.searchHandler.bind(this);
 		this.addHandler = this.addHandler.bind(this);
+		this.toggleHandler = this.toggleHandler.bind(this);
+		this.watchedHandler = this.watchedHandler.bind(this);
 	}
 
 	searchHandler(searchresult) {
-		console.log('this is reuslt', searchresult);
-		if (searchresult.length === 0) {
-			this.setState({
-				searchtoggle: true,
-				searchresult: [{ title: 'No Movie Was Found!' }]
-			});
-		} else {
-			this.setState({ searchresult, searchtoggle: true, movieadded: false });
-		}
+		// if (searchresult.length === 0) {
+		// 	this.setState({
+		// 		searchtoggle: true,
+		// 		searchresult: [{ title: 'No Movie Was Found!' }]
+		// 	});
+		// } else {
+		// 	this.setState({ searchresult, searchtoggle: true, movieadded: false });
+    // }
+    console.log(searchresult);
+    this.setState({searchresult, searchtoggle:true, movieadded: false})
 	}
 
 	addHandler(addedmovies) {
 		this.setState({ searchtoggle: false, movieadded: true, addedmovies });
-  }
-  
-  toggleHandler(e){
+	}
+
+	watchedHandler(watchedmovie) {
+		if (watchedmovie !== 'No Movie Was Found!') {
+			var watchedlist = this.state.watchedlist;
+			if (!watchedlist.includes(watchedmovie)) {
+				watchedlist.push(watchedmovie);
+				this.setState({ watchedlist });
+			}
+		}
+	}
+
+	toggleHandler(e) {
     e.preventDefault();
-  }
+    this.setState({ watched: !this.state.watched }, () => {
+      if (this.state.watched === true) {
+        this.setState({
+          watched_color: 'lightgreen',
+          watched_fontcolor: 'white'
+        });
+      } else {
+        this.setState({
+          watched_color: 'white',
+          watched_fontcolor: 'black'
+        });
+      }
+      // if (this.state.unwatched === true) {
+      //   this.setState({
+      //     unwatch_color: 'lightgreen',
+      //     unwatch_fontcolor: 'white'
+      //   });
+      // } else {
+      //   this.setState({
+      //     unwatch_color: 'white',
+      //     unwatch_fontcolor: 'black'
+      //   });
+      // }
+    });
+	}
 
 	render() {
 		var list;
@@ -57,9 +95,13 @@ class App extends React.Component {
 		} else {
 			list = this.state.movies;
 		}
+		if (this.state.watched === true) {
+			list = this.state.watchedlist;
+		}
 
 		var movie = list.map(movie => (
 			<Movie
+				watchedHandler={this.watchedHandler}
 				searchHandler={this.searchHandler}
 				key={this.state.movies.indexOf(movie) * Math.random()}
 				movie={movie}
@@ -70,8 +112,26 @@ class App extends React.Component {
 				<h3>Movie List</h3>
 				<Add addHandler={this.addHandler} />
 				<Search movies={list} searchHandler={this.searchHandler} />
-        <input className="watched_toggle" type="submit" value="Watched"></input>
-        <input className="watched_toggle" type="submit" value="To-Watch"></input>
+				<input
+					style={{
+						backgroundColor: this.state.watched_color,
+						color: this.state.watched_fontcolor
+					}}
+					onClick={this.toggleHandler}
+					className="watched_toggle"
+					type="submit"
+					value="Watched"
+				/>
+				{/* <input
+					style={{
+						backgroundColor: this.state.unwatch_color,
+						color: this.state.unwatch_fontcolor
+					}}
+					onClick={this.toggleHandler}
+					className="unwatched_toggle"
+					type="submit"
+					value="To-Watch"
+				/> */}
 				{movie}
 			</div>
 		);

@@ -31,7 +31,7 @@ body{
 
 .watched_button{
   position:relative;
-  left: 150px;
+  left: 250px;
   top: 33px;
 }
 
@@ -40,5 +40,21 @@ body{
   top:70px;
   width:70px;
   height:70px;
+}
+
+.unwatched_toggle{
+  position:relative;
+  top:70px;
+  width:70px;
+  height:70px;
+}
+
+.movie_poster{
+  position: relative;
+  top: 25px;
+}
+
+.movie_title{
+  font-weight: bold;
 }
 
