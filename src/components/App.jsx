@@ -19,7 +19,6 @@ class App extends React.Component {
 			movieadded: false,
 			searchtoggle: false,
 			watched: false,
-			unwatched: true,
 			watched_color: 'white',
 			watched_fontcolor: 'black',
 			unwatch_color: 'white',
@@ -29,6 +28,7 @@ class App extends React.Component {
 		this.addHandler = this.addHandler.bind(this);
 		this.toggleHandler = this.toggleHandler.bind(this);
 		this.watchedHandler = this.watchedHandler.bind(this);
+		this.defaultHandler = this.defaultHandler.bind(this);
 	}
 
 	searchHandler(searchresult) {
@@ -40,7 +40,6 @@ class App extends React.Component {
 		// } else {
 		// 	this.setState({ searchresult, searchtoggle: true, movieadded: false });
     // }
-    console.log(searchresult);
     this.setState({searchresult, searchtoggle:true, movieadded: false})
 	}
 
@@ -56,6 +55,13 @@ class App extends React.Component {
 				this.setState({ watchedlist });
 			}
 		}
+	}
+
+	defaultHandler(e){
+		e.preventDefault();
+		this.setState({	movieadded: false,
+			searchtoggle: false,
+			watched: false})
 	}
 
 	toggleHandler(e) {
@@ -112,6 +118,7 @@ class App extends React.Component {
 				<h3>Movie List</h3>
 				<Add addHandler={this.addHandler} />
 				<Search movies={list} searchHandler={this.searchHandler} />
+				<input type="submit" onClick={this.defaultHandler} value="Fetch Your Movies"></input>
 				<input
 					style={{
 						backgroundColor: this.state.watched_color,

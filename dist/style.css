@@ -40,11 +40,12 @@ body{
   top:70px;
   width:70px;
   height:70px;
+  right: 100px;
 }
 
 .unwatched_toggle{
   position:relative;
-  top:70px;
+  top:30px;
   width:70px;
   height:70px;
 }

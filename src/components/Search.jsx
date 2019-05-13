@@ -1,6 +1,6 @@
 import React from 'react';
-import key from '../../config.js';
-import $ from 'jquery';
+import Axios from 'axios';
+
 
 class Search extends React.Component {
 	constructor(props) {
@@ -28,33 +28,20 @@ class Search extends React.Component {
     //     this.props.searchHandler([])
     //   }
     // }
-    var array = [];
-    $.get({
-      url: `https://api.themoviedb.org/3/search/movie?api_key=${key.api}&query=${this.state.query}`,
-      data: String,
-      success: (data)=>{
-        data.results.forEach((result)=>{
-          
-            var poster = result['poster_path'];
-            var obj = {
-              title: result.title,
-              image: `https://image.tmdb.org/t/p/w500/${poster}`
-            }
-          if (obj.image !== null || obj.title !== null){
-            array.push(obj)
-            this.props.searchHandler(array.slice(0, 9))
-          }
-        })
-      }
+    Axios.post('/movies',{
+      search: this.state.query
     })
-
-    // console.log(this.state.result);
-		// this.props.searchHandler(array);
+    .then((result)=>{
+      this.props.searchHandler(result.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    });
 	}
 
 	render() {
 		return (
-			<div>
+			<form onSubmit={this.clickHandler}>
 				<input
 					onChange={this.queryHandler}
 					type="text"
@@ -67,28 +54,9 @@ class Search extends React.Component {
 					className="searchbutton"
 					value="Go!"
 				/>
-			</div>
+			</form>
 		);
 	}
 }
 
 export default Search;
-
-
-      // $.get({
-          //   url: `https://api.themoviedb.org/3/movie/${result.id}/images?api_key=${key.api}`,
-          //   success:(movie)=>{
-          //     console.log(movie);
-          //   }
-          // })
-          // var obj = {
-          //   image = `https://image.tmdb.org/t/p/w500/${result['poster_path']}`;
-          //   title = result.title;
-
-          // }
-          // $.get({
-          //   url:`https://image.tmdb.org/t/p/w500/${result['poster_path']}`,
-          //   success: (poster)=>{
-          //     console.log(poster)
-          //   }
-          // })

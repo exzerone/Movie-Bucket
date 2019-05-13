@@ -1,6 +1,5 @@
 import React from 'react';
-import key from '../../config.js'; 
-import $ from 'jquery';
+
 
 class Add extends React.Component{
   constructor(props){
@@ -20,31 +19,20 @@ class Add extends React.Component{
 
   clickHandler(e){
     e.preventDefault();
-    var array = [];
+    // var array = [];
     // if (!this.state.result.includes(this.state.query)){
     //   array.push(this.state.query)
     // }
     // this.props.addHandler(array)
-    $.get({
-      url: `https://api.themoviedb.org/3/search/movie?api_key=${key.api}&query=${this.state.query}`,
-      data: String,
-      success: (data)=>{
-        data.results.forEach((result)=>{
-          if (result['poster_path'] !== null || result.title !== null){
-            var poster = result['poster_path'];
-            var obj = {
-              title: result.title,
-              image: `https://image.tmdb.org/t/p/w500/${poster}`
-            }
-            if (obj.image !== null || obj.title !== null){
-              array.push(obj)
-              console.log('this is array', array)
-              this.props.addHandler(array.slice(0, 8))
-            }
-          }
-        })
-      }
+    Axios.post('/movies',{
+      search: this.state.query
     })
+    .then((result)=>{
+      this.props.searchHandler(result.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    });
   }  
 
   render(){
