@@ -1,5 +1,5 @@
 -- DROP TABLE IF EXISTS 'Movie Title'
-drop database chris;
+drop database if exists chris ;
 CREATE DATABASE chris;
 
 use chris;
